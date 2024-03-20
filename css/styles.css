@@ -34,8 +34,8 @@ body {
 }
 
 .board {
-    width: 240px;
-    height: 288px;
+    width: 250px;
+    height: 300px;
     display: grid;
     grid-template-rows: repeat(6, 1fr);
     gap: 5px;
@@ -48,25 +48,72 @@ body {
     grid-template-columns: repeat(5, 1fr);
 }
 
-@keyframes pop{
-    0% {scale: 100%;border:.1rem solid #808080 ;}
-    50% {scale: 110%}
-    100% {scale: 100%;border: .15rem solid #333333}
+@keyframes pop {
+    0% {
+        scale: 100%;
+        border: .1rem solid #808080;
+    }
+
+    50% {
+        scale: 110%
+    }
+
+    100% {
+        scale: 100%;
+        border: .15rem solid #333333
+    }
 }
 
-@keyframes flip {
-    0% {transform: rotateX(0deg);}
-    50% { transform: rotateX(90deg); }
-    100% {transform: rotateX(0deg);}
+@keyframes flipG {
+    0% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        background: white;
+        transform: scaleY(0);
+    }
+
+    100% {
+        background: #77DD77;
+        color: white;
+        transform: scaleY(1);
+    }
 }
 
-@keyframes fGreen{
-    50%{background-color: #77DD77;}
-    51%{background-color: #77DD77;}
-    100%{background-color: #77DD77;}
-    
+@keyframes flipY {
+    0% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        background: white;
+        transform: scaleY(0);
+    }
+
+    100% {
+        background: #D1D100;
+        color: white;
+        transform: scaleY(1);
+    }
 }
 
+@keyframes flipGr {
+    0% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        background: white;
+        transform: scaleY(0);
+    }
+
+    100% {
+        background: #808080;
+        color: white;
+        transform: scaleY(1);
+    }
+}
 
 .board-square {
     border: .1rem solid #808080;
@@ -88,24 +135,37 @@ body {
     font-size: 1.5rem;
 }
 
-.flipGreen{
-    animation-name: flip, fGreen;
-    animation-duration: 1s, 0s;
-}
-
-.pop{
+.pop {
     animation-name: pop;
     animation-duration: .1s;
 }
 
+.flip-green {
+    animation: flipG 1s ease forwards;
+}
+
+.flip-yellow {
+    animation: flipY 1s ease forwards;
+
+}
+
+.flip-gray {
+    animation: flipGr 1s ease forwards;
+
+}
+
 .green {
     color: white;
+    /* Transition transform over 1s and delay background-color change until halfway through */
     background-color: #77DD77;
+    /* Initial background color */
 }
+
 .gray {
     color: white;
     background-color: #808080;
 }
+
 .yellow {
     color: white;
     background-color: #D1D100;

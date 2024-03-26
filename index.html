@@ -23,12 +23,103 @@
 
 
         <div class="keyboard-container">
-            Keyboard
+            <div class="keyboard">
+                <div class="row">
+                    <button onclick="onKeyPress(this.innerHTML)">Q</button>
+                    <button onclick="onKeyPress(this.innerHTML)">W</button>
+                    <button onclick="onKeyPress(this.innerHTML)">E</button>
+                    <button onclick="onKeyPress(this.innerHTML)">R</button>
+                    <button onclick="onKeyPress(this.innerHTML)">T</button>
+                    <button onclick="onKeyPress(this.innerHTML)">Y</button>
+                    <button onclick="onKeyPress(this.innerHTML)">U</button>
+                    <button onclick="onKeyPress(this.innerHTML)">I</button>
+                    <button onclick="onKeyPress(this.innerHTML)">O</button>
+                    <button onclick="onKeyPress(this.innerHTML)">P</button>
+                </div>
+                <div class="row">
+                    <button onclick="onKeyPress(this.innerHTML)">A</button>
+                    <button onclick="onKeyPress(this.innerHTML)">S</button>
+                    <button onclick="onKeyPress(this.innerHTML)">D</button>
+                    <button onclick="onKeyPress(this.innerHTML)">F</button>
+                    <button onclick="onKeyPress(this.innerHTML)">G</button>
+                    <button onclick="onKeyPress(this.innerHTML)">H</button>
+                    <button onclick="onKeyPress(this.innerHTML)">J</button>
+                    <button onclick="onKeyPress(this.innerHTML)">K</button>
+                    <button onclick="onKeyPress(this.innerHTML)">L</button>
+                </div>
+                <div class="row">
+                    <button class="action" onclick="onEnter()">Enter</button>
+                    <button onclick="onKeyPress(this.innerHTML)">Z</button>
+                    <button onclick="onKeyPress(this.innerHTML)">X</button>
+                    <button onclick="onKeyPress(this.innerHTML)">C</button>
+                    <button onclick="onKeyPress(this.innerHTML)">V</button>
+                    <button onclick="onKeyPress(this.innerHTML)">B</button>
+                    <button onclick="onKeyPress(this.innerHTML)">N</button>
+                    <button onclick="onKeyPress(this.innerHTML)">M</button>
+                    <button class="fa-solid fa-delete-left action" onclick="onBackspace()"></button>
+                </div>
+            </div>
         </div>
 
     </main>
+
+    <!-- <section class="modal-container">
+        <div class="modal-background fade-in"></div>
+        <div class="modal enter">
+            <div class="top">
+                <h1 class="close fa-solid fa-xmark" onclick="closeModal()"></h1>
+            </div>
+            <div class="container">
+                <h1 class="desc-title">How to play</h1>
+                <p class="desc-sub">Guess the wordle in 6 tries.</p>
+                <ul>
+                    <li>Each guess Must be a valid 5-letter word</li>
+                    <li>The color of the tiles will change to show how close your guess was to the word.</li>
+                </ul>
+
+                <h4>Examples</h4>
+                <div class="example-row">
+                    <div class="board-square flip-green">W</div>
+                    <div class="board-square">E</div>
+                    <div class="board-square">A</div>
+                    <div class="board-square">R</div>
+                    <div class="board-square">Y</div>
+                </div>
+                <p><strong>W</strong> is in the word and in the correct spot</p>
+
+
+                <div class="example-row">
+                    <div class="board-square">P</div>
+                    <div class="board-square flip-yellow">I</div>
+                    <div class="board-square">L</div>
+                    <div class="board-square">L</div>
+                    <div class="board-square">S</div>
+                </div>
+                <p><strong>I</strong> is in the word but in the wrong spot</p>
+
+                <div class="example-row">
+                    <div class="board-square">V</div>
+                    <div class="board-square">A</div>
+                    <div class="board-square">G</div>
+                    <div class="board-square flip-gray">U</div>
+                    <div class="board-square">E</div>
+                </div>
+
+                <p><strong>U</strong> is not in the word in any spot</p>
+
+            </div>
+        </div>
+    </section> -->
+
+    <!-- <div class="alert-container">
+        <div class="alert">
+            <h4 class="alert-title">Test</h4>
+        </div>
+    </div> -->
+
 </body>
 
 <script type="text/javascript" src="js/script.js"></script>
+<script src="https://kit.fontawesome.com/8e1f8a9b54.js" crossorigin="anonymous"></script>
 
 </html>

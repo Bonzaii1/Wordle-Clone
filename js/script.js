@@ -3,6 +3,7 @@ var activeRow = 1;
 var activeSquare = 1;
 var row = null
 var solved = false
+var edit = true
 
 //Word list and word to guess. !!WILL NOT BE USED IN ACTUAL SERVER IMPLEMENTATION!!
 var wordList = ["adopt",
@@ -19,7 +20,7 @@ var word = "charm"
 
 //Method to programatically create my game grid
 function onStart() {
-    console.log("run")
+
     //grab board container
     const board = document.getElementById("board");
 
@@ -41,16 +42,75 @@ function onStart() {
         }
     }
 
+    //createModal()
+
 
     row = document.getElementById("row-1")
 }
 //Run onStart when page loads
 window.onload = onStart
 
+function closeModal() {
+    const container = document.querySelector(".modal-container")
+    const modal = document.querySelector(".modal")
+    modal.classList.remove("enter")
+    container.classList.remove("fade-in")
+
+
+    modal.classList.add("exit")
+    container.classList.add("fade")
+
+    container.addEventListener("animationend", function () {
+        container.remove()
+        container.removeEventListener("animationend", this)
+    })
+
+}
+
+function showAlert(message, check) {
+    if (document.querySelector(".alert-container") == null) {
+        const alertContainer = document.createElement("div")
+        const row = document.getElementById("row-" + activeRow)
+        alertContainer.className = "alert-container"
+        alertContainer.innerHTML = `<div class="alert">
+            <h4 class="alert-title">${message}</h4>
+        </div>`
+
+        document.body.appendChild(alertContainer)
+
+        if (!check) {
+            row.classList.add("shake")
+            alertContainer.addEventListener("animationend", function () {
+                row.classList.remove("shake")
+                alertContainer.removeEventListener("animationend", this)
+            });
+            setTimeout(() => {
+                hideAlert()
+            }, 1000);
+        }
+
+
+
+
+    }
+
+}
+
+function hideAlert() {
+    const alertContainer = document.querySelector(".alert-container")
+    alertContainer.classList.add("fade")
+
+    alertContainer.addEventListener("animationend", function () {
+        alertContainer.remove()
+        alertContainer.removeEventListener("animationend", this)
+    });
+
+}
+
+
 
 //Function to check if word exists in list. !!O(logn) COMPLEXITY THANKS TO BINARY SEARCH!!
 function wordExists(word) {
-    console.log(wordList.length)
     //setup left and right pointers
     left = 0
     right = wordList.length
@@ -58,15 +118,13 @@ function wordExists(word) {
         //define midpoint
         let mid = Math.floor((left + right) / 2)
         //check if word lives in midpoint
-        console.log(wordList[mid])
-        console.log(word)
         if (wordList[mid] == word) {
             //return true when word is located
             return true;
         }
         //adjust based if left or right
         else if (wordList[mid] < word) {
-            left = mid
+            left = mid + 1
         } else {
             right = mid
         }
@@ -98,10 +156,10 @@ function triggerAnimation(element) {
     });
 }
 
-function onFlipEnd(element, color) {
+function onFlipEnd(element, color, i) {
     element.classList.remove("flip-" + color);
-
     element.classList.add(color)
+    if (i === 4) edit = true;
     element.removeEventListener("animationend", onAnimationEnd);
 }
 
@@ -110,24 +168,19 @@ function triggerFlip(element, color, i, delay) {
         element.classList.add("flip-" + color)
         element.style.animatonDelay = `${i * 100}ms`;
         element.addEventListener("animationend", function () {
-            onFlipEnd(element, color)
+            onFlipEnd(element, color, i)
         });
     }, delay);
 }
 
 
-
-
-
-//KEYDOWN LISTENERS
-document.addEventListener("keydown", function handleKeyDown(event) {
-    //alphabet keydown listener (should move to seperate function in webapp implementation)
-    if (/^[a-zA-z]$/.test(event.key)) {
+function onKeyPress(key) {
+    if (edit) {
         let square = row.querySelector('#square-' + activeSquare)
         if (square != null && square.innerHTML == "") {
 
             //set square content to pressed letter
-            square.innerHTML = event.key.toUpperCase()
+            square.innerHTML = key.toUpperCase()
             //animation trigger
             triggerAnimation(square, "pop")
 
@@ -137,86 +190,110 @@ document.addEventListener("keydown", function handleKeyDown(event) {
             }
 
         }
-        //backspace function (should move to seperate function in webapp implementation)
-    } else if (event.key == "Backspace") {
-        //left limit check
-        if (activeSquare != 1) {
-            activeSquare--
+    }
+
+}
+
+function onBackspace() {
+    //left limit check
+    if (activeSquare != 1) {
+        activeSquare--
+    }
+
+    let square = row.querySelector('#square-' + activeSquare)
+    if (square != null) {
+        //reset square content if square is not null
+        square.innerHTML = ""
+        square.className = "board-square"
+    }
+}
+
+function onEnter() {
+    //Variable creation, Map for effeciency, 
+    const solutionMap = new Map()
+    const sol = []
+    let guessArr = []
+    let guess = ""
+
+    for (let i = 0; i < 5; i++) {
+        let letter = row.querySelector('#square-' + (i + 1)).innerHTML.toLowerCase()
+        guessArr[i] = letter
+        guess = guess + letter
+    }
+    const inList = wordExists(guess)
+    if (activeSquare == 6 && inList) {
+        for (letter of word) {
+            solutionMap.set(letter, (solutionMap.get(letter) || 0) + 1)
+            sol.push(letter)
         }
-
-        let square = row.querySelector('#square-' + activeSquare)
-        if (square != null) {
-            //reset square content if square is not null
-            square.innerHTML = ""
-            square.className = "board-square"
-
-
-
-        }
-        //the main check
-    } else if (event.key == 'Enter') {
-        //Variable creation, Map for effeciency, 
-        const solutionMap = new Map()
-        const sol = []
-        let guessArr = []
-        let guess = ""
+        let delay = 0
+        let correct = 0
 
         for (let i = 0; i < 5; i++) {
-            let letter = row.querySelector('#square-' + (i + 1)).innerHTML.toLowerCase()
-            guessArr[i] = letter
-            guess = guess + letter
-        }
-        const inList = wordExists(guess)
-        if (activeSquare == 6 && inList) {
-            for (letter of word) {
-                solutionMap.set(letter, (solutionMap.get(letter) || 0) + 1)
-                sol.push(letter)
-            }
-            let delay = 0
-            let correct = 0
-            for (let i = 0; i < 5; i++) {
+            edit = false
+            let square = row.querySelector('#square-' + (i + 1))
 
-                let square = row.querySelector('#square-' + (i + 1))
-
-                if (guessArr[i] === sol[i]) {
-                    triggerFlip(square, "green", i, delay)
-                    solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
-                    correct++;
-                } else if (solutionMap.has(guessArr[i])) {
-                    triggerFlip(square, "yellow", i, delay)
-                    solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
-                } else {
-                    triggerFlip(square, "gray", i, delay)
-                }
-                delay += 300
-            }
-
-            if (correct === 5) {
-                console.log("You win!!")
-                activeRow = 0
-                activeSquare = 0
-            } else if (activeRow == 6) {
-                console.log("You lose!!")
-                activeRow = 0
-                activeSquare = 0
+            if (guessArr[i] === sol[i]) {
+                triggerFlip(square, "green", i, delay)
+                solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
+                correct++;
+            } else if (solutionMap.has(guessArr[i])) {
+                triggerFlip(square, "yellow", i, delay)
+                solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
             } else {
-                activeRow++;
-                activeSquare = 1;
-                row = document.getElementById("row-" + activeRow)
+                triggerFlip(square, "gray", i, delay)
             }
+            delay += 300
+        }
 
+        if (correct === 5) {
+            setTimeout(() => {
+                showAlert("Well done!", true)
+            }, 2000);
+
+            activeRow = 0
+            activeSquare = 0
+        } else if (activeRow == 6) {
+            setTimeout(() => {
+                showAlert(word.toUpperCase(), true)
+            }, 2000);
+            activeRow = 0
+            activeSquare = 0
         } else {
-            if (activeRow == 7) {
-                console.log("You lose!!")
-            }
-            else if (activeSquare != 6) {
-                console.log("Not enough letters")
-            } else {
-                console.log("Not in list")
-            }
+            activeRow++;
+            activeSquare = 1;
+            row = document.getElementById("row-" + activeRow)
         }
 
-        console.log("Enter")
+    } else {
+        if (activeRow == 7) {
+            showAlert(word.toUpperCase(), true)
+        }
+        else if (activeSquare != 6) {
+            showAlert("Not enough Letters", false)
+        } else {
+            showAlert("Word not in List", false)
+        }
+    }
+
+}
+
+
+
+
+//KEYDOWN LISTENERS
+document.addEventListener("keydown", function handleKeyDown(event) {
+    //alphabet keydown listener (should move to seperate function in webapp implementation)
+    if (/^[a-zA-z]$/.test(event.key)) {
+        onKeyPress(event.key)
+
+
+        //backspace function (should move to seperate function in webapp implementation)
+    } else if (event.key == "Backspace") {
+        onBackspace()
+
+        //the main check
+    } else if (event.key == 'Enter') {
+        onEnter()
     }
 })
-

@@ -18,7 +18,7 @@
 
             <span class="icon fa-solid fa-gear"></span>
         </div>
-        
+
     </header>
 
     <main class="wordle-game">
@@ -33,37 +33,38 @@
         <div class="keyboard-container">
             <div class="keyboard">
                 <div class="row">
-                    <button onclick="onKeyPress(this.innerHTML)">Q</button>
-                    <button onclick="onKeyPress(this.innerHTML)">W</button>
-                    <button onclick="onKeyPress(this.innerHTML)">E</button>
-                    <button onclick="onKeyPress(this.innerHTML)">R</button>
-                    <button onclick="onKeyPress(this.innerHTML)">T</button>
-                    <button onclick="onKeyPress(this.innerHTML)">Y</button>
-                    <button onclick="onKeyPress(this.innerHTML)">U</button>
-                    <button onclick="onKeyPress(this.innerHTML)">I</button>
-                    <button onclick="onKeyPress(this.innerHTML)">O</button>
-                    <button onclick="onKeyPress(this.innerHTML)">P</button>
+                    <button id="Q" onclick="onKeyPress(this.innerHTML)">Q</button>
+                    <button id="W" onclick="onKeyPress(this.innerHTML)">W</button>
+                    <button id="E" onclick="onKeyPress(this.innerHTML)">E</button>
+                    <button id="R" onclick="onKeyPress(this.innerHTML)">R</button>
+                    <button id="T" onclick="onKeyPress(this.innerHTML)">T</button>
+                    <button id="Y" onclick="onKeyPress(this.innerHTML)">Y</button>
+                    <button id="U" onclick="onKeyPress(this.innerHTML)">U</button>
+                    <button id="I" onclick="onKeyPress(this.innerHTML)">I</button>
+                    <button id="O" onclick="onKeyPress(this.innerHTML)">O</button>
+                    <button id="P" onclick="onKeyPress(this.innerHTML)">P</button>
                 </div>
                 <div class="row">
-                    <button onclick="onKeyPress(this.innerHTML)">A</button>
-                    <button onclick="onKeyPress(this.innerHTML)">S</button>
-                    <button onclick="onKeyPress(this.innerHTML)">D</button>
-                    <button onclick="onKeyPress(this.innerHTML)">F</button>
-                    <button onclick="onKeyPress(this.innerHTML)">G</button>
-                    <button onclick="onKeyPress(this.innerHTML)">H</button>
-                    <button onclick="onKeyPress(this.innerHTML)">J</button>
-                    <button onclick="onKeyPress(this.innerHTML)">K</button>
-                    <button onclick="onKeyPress(this.innerHTML)">L</button>
+                    <button id="A" onclick="onKeyPress(this.innerHTML)">A</button>
+                    <button id="S" onclick="onKeyPress(this.innerHTML)">S</button>
+                    <button id="D" onclick="onKeyPress(this.innerHTML)">D</button>
+                    <button id="F" onclick="onKeyPress(this.innerHTML)">F</button>
+                    <button id="G" onclick="onKeyPress(this.innerHTML)">G</button>
+                    <button id="H" onclick="onKeyPress(this.innerHTML)">H</button>
+                    <button id="J" onclick="onKeyPress(this.innerHTML)">J</button>
+                    <button id="K" onclick="onKeyPress(this.innerHTML)">K</button>
+                    <button id="L" onclick="onKeyPress(this.innerHTML)">L</button>
+                    <button id="Ñ" onclick="onKeyPress(this.innerHTML)">Ñ</button>
                 </div>
                 <div class="row">
                     <button class="action" onclick="onEnter()">Enter</button>
-                    <button onclick="onKeyPress(this.innerHTML)">Z</button>
-                    <button onclick="onKeyPress(this.innerHTML)">X</button>
-                    <button onclick="onKeyPress(this.innerHTML)">C</button>
-                    <button onclick="onKeyPress(this.innerHTML)">V</button>
-                    <button onclick="onKeyPress(this.innerHTML)">B</button>
-                    <button onclick="onKeyPress(this.innerHTML)">N</button>
-                    <button onclick="onKeyPress(this.innerHTML)">M</button>
+                    <button id="Z" onclick="onKeyPress(this.innerHTML)">Z</button>
+                    <button id="X" onclick="onKeyPress(this.innerHTML)">X</button>
+                    <button id="C" onclick="onKeyPress(this.innerHTML)">C</button>
+                    <button id="V" onclick="onKeyPress(this.innerHTML)">V</button>
+                    <button id="B" onclick="onKeyPress(this.innerHTML)">B</button>
+                    <button id="N" onclick="onKeyPress(this.innerHTML)">N</button>
+                    <button id="M" onclick="onKeyPress(this.innerHTML)">M</button>
                     <button class="fa-solid fa-delete-left action" onclick="onBackspace()"></button>
                 </div>
             </div>
@@ -71,7 +72,7 @@
 
     </main>
 
-    <!-- <section class="modal-container">
+    <section class="modal-container">
         <div class="modal-background fade-in"></div>
         <div class="modal enter">
             <div class="top">
@@ -117,13 +118,7 @@
 
             </div>
         </div>
-    </section> -->
-
-    <!-- <div class="alert-container">
-        <div class="alert">
-            <h4 class="alert-title">Test</h4>
-        </div>
-    </div> -->
+    </section>
 
 </body>
 

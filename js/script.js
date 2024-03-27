@@ -5,18 +5,14 @@ var row = null
 var solved = false
 var edit = true
 
+
+
 //Word list and word to guess. !!WILL NOT BE USED IN ACTUAL SERVER IMPLEMENTATION!!
-var wordList = ["adopt",
-    "ahead",
-    "bacon",
-    "beach",
-    "blank",
-    "charm",
-    "drink",
-    "eagle",
-    "fairy",
-    "ghost"]
-var word = "charm"
+var wordList
+var word
+const solutionMap = new Map()
+
+
 
 //Method to programatically create my game grid
 function onStart() {
@@ -42,7 +38,20 @@ function onStart() {
         }
     }
 
-    //createModal()
+    fetch("../assets/wordListEsOrdered.txt")
+        .then((res) => res.text())
+        .then((text) => {
+            wordList = text.split(",")
+            let choice = Math.floor(Math.random() * wordList.length);
+            word = wordList[choice]
+
+            for (letter of word) {
+                solutionMap.set(letter, (solutionMap.get(letter) || 0) + 1)
+
+            }
+            console.log(word)
+        })
+        .catch((e) => console.error(e));
 
 
     row = document.getElementById("row-1")
@@ -210,7 +219,7 @@ function onBackspace() {
 
 function onEnter() {
     //Variable creation, Map for effeciency, 
-    const solutionMap = new Map()
+
     const sol = []
     let guessArr = []
     let guess = ""
@@ -221,9 +230,9 @@ function onEnter() {
         guess = guess + letter
     }
     const inList = wordExists(guess)
+
     if (activeSquare == 6 && inList) {
         for (letter of word) {
-            solutionMap.set(letter, (solutionMap.get(letter) || 0) + 1)
             sol.push(letter)
         }
         let delay = 0
@@ -232,18 +241,26 @@ function onEnter() {
         for (let i = 0; i < 5; i++) {
             edit = false
             let square = row.querySelector('#square-' + (i + 1))
-
+            let check = false
+            for (let j = i + 1; j < 5; j++) {
+                if (guessArr[i] == sol[j]) check = true;
+            }
             if (guessArr[i] === sol[i]) {
                 triggerFlip(square, "green", i, delay)
                 solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
                 correct++;
-            } else if (solutionMap.has(guessArr[i])) {
+            } else if (solutionMap.has(guessArr[i]) && solutionMap.get(guessArr[i]) != 0 && !check) {
+
                 triggerFlip(square, "yellow", i, delay)
                 solutionMap.set(guessArr[i], solutionMap.get(guessArr[i]) - 1)
+
             } else {
                 triggerFlip(square, "gray", i, delay)
+                const key = document.getElementById(guessArr[i].toUpperCase())
+                key.style.backgroundColor = "#333333"
             }
             delay += 300
+
         }
 
         if (correct === 5) {
